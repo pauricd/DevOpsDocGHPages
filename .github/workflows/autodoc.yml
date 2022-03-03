@@ -1,0 +1,19 @@
+name: autodoc
+#triggers
+on:
+  push:
+    branches: main
+  pull_request:
+    branches: main
+
+jobs:
+  build:
+    steps:
+    - name: dependencies
+      run:
+        python -m pip instrall --upgrade pip
+        pip install -r requirements.txt
+    - name: venv
+      run: python -m venv && source venv/bin/activate && pip install -r requirements.txt
+    - name: documentation
+      run: cd docs && source ../venv/bin/activate && python ../venv/bin/sphinx-apidoc -f -d 8 -o . .. && make html && cd ..
