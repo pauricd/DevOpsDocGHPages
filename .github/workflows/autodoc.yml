@@ -22,3 +22,7 @@ jobs:
       run: python -m venv venv && source venv/bin/activate && pip install -r requirements.txt
     - name: documentation
       run: cd docs && source ../venv/bin/activate && python ../venv/bin/sphinx-apidoc -f -d 8 -o . .. && make html && cd ..
+    - name: publish
+      run: |
+        git config user.name 'github-actions[bot]' && git config user.email 'github-actions[bot]@users.noreply.github.com'
+        mkdocs gh-deploy --config-file docs/mkdocs.yml --force
