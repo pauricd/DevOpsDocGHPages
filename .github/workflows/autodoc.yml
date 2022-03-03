@@ -1,4 +1,4 @@
-name: autodoc
+name: autodoc-generation
 #triggers
 on:
   push:
@@ -14,15 +14,15 @@ jobs:
     - uses: actions/setup-python@v2 # THIS IS IMPORTANT
       with:
         python-version: '3.9'
-    - name: dependencies
+    - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    - name: venv
+    - name: Create virtual environment
       run: python -m venv venv && source venv/bin/activate && pip install -r requirements.txt
-    - name: documentation
+    - name: Create documentation
       run: cd docs && source ../venv/bin/activate && python ../venv/bin/sphinx-apidoc -f -d 8 -o . .. && make html && cd ..
-    - name: publish
+    - name: Publish documentation to gh-pages branch
       run: |
         git config user.name 'github-actions[bot]' && git config user.email 'github-actions[bot]@users.noreply.github.com'
         mkdocs gh-deploy --config-file docs/mkdocs.yml --force
