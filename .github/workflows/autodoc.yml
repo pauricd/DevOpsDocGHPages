@@ -25,4 +25,9 @@ jobs:
     - name: publish
       run: |
         git config user.name 'github-actions[bot]' && git config user.email 'github-actions[bot]@users.noreply.github.com'
+        git branch -D gh-pages
+        git checkout gh-pages
+        git pull --rebase
+        git checkout master
+        mkdocs build --clean
         mkdocs gh-deploy --config-file docs/mkdocs.yml --force
